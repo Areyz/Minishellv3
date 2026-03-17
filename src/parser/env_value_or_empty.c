@@ -1,34 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env_set.c                                          :+:      :+:    :+:   */
+/*   env_value_or_empty.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mafzal < mafzal@student.42warsaw.pl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/03/06 14:41:59 by mafzal            #+#    #+#             */
-/*   Updated: 2026/03/06 14:42:00 by mafzal           ###   ########.fr       */
+/*   Created: 2026/03/16 22:39:06 by mafzal            #+#    #+#             */
+/*   Updated: 2026/03/16 22:39:07 by mafzal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-t_env	*env_set(t_global *global, char *key, char *value)
+char	*env_value_or_empty(t_global *global, const char *key)
 {
-	t_env	*node;
+	t_env	*n;
 
-	node = env_find(global->env, key);
-	if (node)
-	{
-		env_update(node, value);
-		return (0);
-	}
-	node = env_new_node(key, value);
-	if (!node)
-	{
-		free(node);
-		return (0);
-	}
-		
-	env_append(global, node);
-	return (node);
+	n = env_find(global->env, (char *)key);
+	if (!n || !n->value)
+		return (ft_strdup(""));
+	return (ft_strdup(n->value));
 }

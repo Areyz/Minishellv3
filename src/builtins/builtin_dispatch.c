@@ -86,6 +86,7 @@ int	execute(t_cmd *cmds, t_global *global)
 	int	saved_stdin;
 
 	if (!cmds)
+	{
 		return (0);
 	saved_stdin = dup(STDIN_FILENO);
 	process_heredoc(cmds);
