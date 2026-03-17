@@ -22,7 +22,7 @@ static int	write_heredoc_lines(int write_fd, char *delim)
 		if (!line || ft_strncmp(line, delim, ft_strlen(delim) + 1) == 0)
 		{
 			free(line);
-			return (-1);
+			return (0);
 		}
 		write(write_fd, line, ft_strlen(line));
 		write(write_fd, "\n", 1);

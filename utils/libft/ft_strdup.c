@@ -1,34 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env_set.c                                          :+:      :+:    :+:   */
+/*   ft_strdup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mafzal < mafzal@student.42warsaw.pl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/03/06 14:41:59 by mafzal            #+#    #+#             */
-/*   Updated: 2026/03/06 14:42:00 by mafzal           ###   ########.fr       */
+/*   Created: 2024/12/19 20:11:59 by mafzal            #+#    #+#             */
+/*   Updated: 2024/12/24 14:14:38 by mafzal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "libft.h"
 
-t_env	*env_set(t_global *global, char *key, char *value)
+char	*ft_strdup(const char *s)
 {
-	t_env	*node;
+	char	*ptr;
+	int		len;
+	int		i;
 
-	node = env_find(global->env, key);
-	if (node)
+	ptr = (char *)s;
+	i = 0;
+	len = ft_strlen(s);
+	if (ptr == NULL)
+		return (NULL);
+	ptr = (char *)malloc((len + 1) * sizeof(char));
+	if (ptr == NULL)
+		return (NULL);
+	while (s[i] != '\0')
 	{
-		env_update(node, value);
-		return (0);
+		ptr[i] = s[i];
+		i++;
 	}
-	node = env_new_node(key, value);
-	if (!node)
-	{
-		free(node);
-		return (0);
-	}
-		
-	env_append(global, node);
-	return (node);
+	ptr[i] = '\0';
+	return (ptr);
 }

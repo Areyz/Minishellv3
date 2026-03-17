@@ -1,34 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env_set.c                                          :+:      :+:    :+:   */
+/*   ft_strmapi.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mafzal < mafzal@student.42warsaw.pl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/03/06 14:41:59 by mafzal            #+#    #+#             */
-/*   Updated: 2026/03/06 14:42:00 by mafzal           ###   ########.fr       */
+/*   Created: 2024/12/24 15:44:56 by mafzal            #+#    #+#             */
+/*   Updated: 2024/12/24 17:31:26 by mafzal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "libft.h"
 
-t_env	*env_set(t_global *global, char *key, char *value)
+char	*ft_strmapi(char const *s, char (*f)(unsigned int, char))
 {
-	t_env	*node;
+	char	*str;
+	size_t	i;
+	size_t	len;
 
-	node = env_find(global->env, key);
-	if (node)
+	i = 0;
+	len = 0;
+	if (!s || !f)
+		return (NULL);
+	len = ft_strlen(s);
+	str = (char *)malloc((len + 1) * sizeof(char));
+	if (str == NULL)
+		return (NULL);
+	while (s[i] != '\0')
 	{
-		env_update(node, value);
-		return (0);
+		str[i] = f(i, s[i]);
+		i++;
 	}
-	node = env_new_node(key, value);
-	if (!node)
-	{
-		free(node);
-		return (0);
-	}
-		
-	env_append(global, node);
-	return (node);
+	str[i] = '\0';
+	return (str);
 }

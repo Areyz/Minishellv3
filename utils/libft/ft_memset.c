@@ -1,34 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env_set.c                                          :+:      :+:    :+:   */
+/*   ft_memset.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mafzal < mafzal@student.42warsaw.pl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/03/06 14:41:59 by mafzal            #+#    #+#             */
-/*   Updated: 2026/03/06 14:42:00 by mafzal           ###   ########.fr       */
+/*   Created: 2024/12/04 21:12:06 by mafzal            #+#    #+#             */
+/*   Updated: 2024/12/25 20:17:07 by mafzal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "libft.h"
 
-t_env	*env_set(t_global *global, char *key, char *value)
+void	*ft_memset(void *s, int c, size_t n)
 {
-	t_env	*node;
+	unsigned char	*src;
+	size_t			i;
 
-	node = env_find(global->env, key);
-	if (node)
+	src = (unsigned char *)s;
+	i = 0;
+	while (i < n)
 	{
-		env_update(node, value);
-		return (0);
+		src[i] = c;
+		i++;
 	}
-	node = env_new_node(key, value);
-	if (!node)
-	{
-		free(node);
-		return (0);
-	}
-		
-	env_append(global, node);
-	return (node);
+	return (src);
 }

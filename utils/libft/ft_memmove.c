@@ -1,34 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env_set.c                                          :+:      :+:    :+:   */
+/*   ft_memmove.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mafzal < mafzal@student.42warsaw.pl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/03/06 14:41:59 by mafzal            #+#    #+#             */
-/*   Updated: 2026/03/06 14:42:00 by mafzal           ###   ########.fr       */
+/*   Created: 2024/12/24 14:17:27 by mafzal            #+#    #+#             */
+/*   Updated: 2024/12/24 14:17:55 by mafzal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "libft.h"
 
-t_env	*env_set(t_global *global, char *key, char *value)
+void	*ft_memmove(void *dest, const void *src, size_t n)
 {
-	t_env	*node;
+	unsigned char		*d;
+	const unsigned char	*s;
 
-	node = env_find(global->env, key);
-	if (node)
+	if (!dest && !src)
+		return (NULL);
+	d = (unsigned char *)dest;
+	s = (const unsigned char *)src;
+	if (d > s)
 	{
-		env_update(node, value);
-		return (0);
+		while (n--)
+			d[n] = s[n];
 	}
-	node = env_new_node(key, value);
-	if (!node)
+	else
 	{
-		free(node);
-		return (0);
+		while (n--)
+			*d++ = *s++;
 	}
-		
-	env_append(global, node);
-	return (node);
+	return (dest);
 }

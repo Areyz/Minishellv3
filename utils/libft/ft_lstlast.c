@@ -1,34 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env_set.c                                          :+:      :+:    :+:   */
+/*   ft_lstlast.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mafzal < mafzal@student.42warsaw.pl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/03/06 14:41:59 by mafzal            #+#    #+#             */
-/*   Updated: 2026/03/06 14:42:00 by mafzal           ###   ########.fr       */
+/*   Created: 2024/12/26 16:53:01 by mafzal            #+#    #+#             */
+/*   Updated: 2025/01/14 19:43:39 by mafzal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "libft.h"
 
-t_env	*env_set(t_global *global, char *key, char *value)
+t_list	*ft_lstlast(t_list *lst)
 {
-	t_env	*node;
-
-	node = env_find(global->env, key);
-	if (node)
+	if (!lst)
+		return (NULL);
+	while (lst->next != NULL)
 	{
-		env_update(node, value);
-		return (0);
+		lst = lst->next;
 	}
-	node = env_new_node(key, value);
-	if (!node)
-	{
-		free(node);
-		return (0);
-	}
-		
-	env_append(global, node);
-	return (node);
+	return (lst);
 }

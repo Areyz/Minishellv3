@@ -1,34 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env_set.c                                          :+:      :+:    :+:   */
+/*   ft_memcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mafzal < mafzal@student.42warsaw.pl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/03/06 14:41:59 by mafzal            #+#    #+#             */
-/*   Updated: 2026/03/06 14:42:00 by mafzal           ###   ########.fr       */
+/*   Created: 2024/12/17 19:16:47 by mafzal            #+#    #+#             */
+/*   Updated: 2024/12/18 17:17:42 by mafzal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "libft.h"
 
-t_env	*env_set(t_global *global, char *key, char *value)
+int	ft_memcmp(const void *s1, const void *s2, size_t n)
 {
-	t_env	*node;
+	const unsigned char	*ptr1;
+	const unsigned char	*ptr2;
+	size_t				i;
 
-	node = env_find(global->env, key);
-	if (node)
-	{
-		env_update(node, value);
+	ptr1 = (const unsigned char *)s1;
+	ptr2 = (const unsigned char *)s2;
+	if (n == 0)
 		return (0);
-	}
-	node = env_new_node(key, value);
-	if (!node)
+	i = 0;
+	while (i < n)
 	{
-		free(node);
-		return (0);
+		if (ptr1[i] != ptr2[i])
+			return (ptr1[i] - ptr2[i]);
+		i++;
 	}
-		
-	env_append(global, node);
-	return (node);
+	return (0);
 }

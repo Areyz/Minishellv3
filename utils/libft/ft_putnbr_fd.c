@@ -1,34 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env_set.c                                          :+:      :+:    :+:   */
+/*   ft_putnbr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mafzal < mafzal@student.42warsaw.pl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/03/06 14:41:59 by mafzal            #+#    #+#             */
-/*   Updated: 2026/03/06 14:42:00 by mafzal           ###   ########.fr       */
+/*   Created: 2024/12/24 18:44:50 by mafzal            #+#    #+#             */
+/*   Updated: 2024/12/26 23:04:53 by mafzal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "libft.h"
 
-t_env	*env_set(t_global *global, char *key, char *value)
+void	ft_putnbr_fd(int n, int fd)
 {
-	t_env	*node;
+	char	num;
 
-	node = env_find(global->env, key);
-	if (node)
+	if (fd < 0)
+		return ;
+	if (n == -2147483648)
 	{
-		env_update(node, value);
-		return (0);
+		write(fd, "-2147483648", 11);
+		return ;
 	}
-	node = env_new_node(key, value);
-	if (!node)
+	if (n < 0)
 	{
-		free(node);
-		return (0);
+		write(fd, "-", 1);
+		n = n * -1;
 	}
-		
-	env_append(global, node);
-	return (node);
+	if (n >= 10)
+		ft_putnbr_fd(n / 10, fd);
+	num = (n % 10) + '0';
+	write(fd, &num, 1);
 }

@@ -1,34 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env_set.c                                          :+:      :+:    :+:   */
+/*   append_plain_char.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mafzal < mafzal@student.42warsaw.pl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/03/06 14:41:59 by mafzal            #+#    #+#             */
-/*   Updated: 2026/03/06 14:42:00 by mafzal           ###   ########.fr       */
+/*   Created: 2026/03/16 22:41:09 by mafzal            #+#    #+#             */
+/*   Updated: 2026/03/16 22:42:31 by mafzal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-t_env	*env_set(t_global *global, char *key, char *value)
+void	append_plain_char(const char *src, int *i, char **out)
 {
-	t_env	*node;
+	char	*piece;
 
-	node = env_find(global->env, key);
-	if (node)
-	{
-		env_update(node, value);
-		return (0);
-	}
-	node = env_new_node(key, value);
-	if (!node)
-	{
-		free(node);
-		return (0);
-	}
-		
-	env_append(global, node);
-	return (node);
+	piece = ft_substr(src, *i, 1);
+	*out = cmd_strappend(*out, piece);
+	free(piece);
+	(*i)++;
 }

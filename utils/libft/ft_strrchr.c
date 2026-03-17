@@ -1,34 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env_set.c                                          :+:      :+:    :+:   */
+/*   ft_strrchr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mafzal < mafzal@student.42warsaw.pl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/03/06 14:41:59 by mafzal            #+#    #+#             */
-/*   Updated: 2026/03/06 14:42:00 by mafzal           ###   ########.fr       */
+/*   Created: 2024/12/17 19:42:24 by mafzal            #+#    #+#             */
+/*   Updated: 2024/12/30 19:48:58 by mafzal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "libft.h"
 
-t_env	*env_set(t_global *global, char *key, char *value)
+char	*ft_strrchr(const char *s, int c)
 {
-	t_env	*node;
+	char	*ptr;
 
-	node = env_find(global->env, key);
-	if (node)
+	ptr = NULL;
+	if (c == '\0')
+		return ((char *)s + ft_strlen(s));
+	while (*s)
 	{
-		env_update(node, value);
-		return (0);
+		if (*s == (char)c)
+			ptr = (char *)s;
+		s++;
 	}
-	node = env_new_node(key, value);
-	if (!node)
-	{
-		free(node);
-		return (0);
-	}
-		
-	env_append(global, node);
-	return (node);
+	return (ptr);
 }
