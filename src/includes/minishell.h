@@ -6,7 +6,7 @@
 /*   By: mafzal < mafzal@student.42warsaw.pl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/06 14:40:15 by mafzal            #+#    #+#             */
-/*   Updated: 2026/03/16 23:39:43 by mafzal           ###   ########.fr       */
+/*   Updated: 2026/03/17 16:33:39 by mgolasze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,7 @@ void				redir_new(t_cmd *cmd, t_token_type type, char *op,
 						char *value);
 char				*cmd_strappend(char *dst, const char *add);
 void				free_cmd(t_cmd *cmd);
+void				free_redir(t_redir *redir);
 int					is_redirection(t_token_type type);
 t_token				*handle_redirection(t_cmd *cmd, t_token *current);
 t_cmd				*handle_pipe(t_cmd *cmd);
@@ -162,6 +163,8 @@ char				*find_command(char *cmd, t_env *env);
 int					apply_redir_in(t_redir *redir);
 int					apply_redir_out(t_redir *redir);
 int					apply_heredoc(t_redir *redir);
+void				process_heredoc(t_cmd *cmd);
+void				close_heredoc(t_cmd *cmd);
 int					apply_redirs(t_cmd *cmd);
 
 /* exec_cmd.c */
@@ -193,7 +196,7 @@ int					builtin_unset(t_cmd *cmd, t_global *global);
 /* builtin_echo.c */
 int					is_n_flag(char *arg);
 int					echo_print(char **args, int start, int newline);
-int					builtin_echo(t_cmd *cmd);
+int					builtin_echo(t_cmd *cmd, t_global *global);
 
 /* builtin_cd.c */
 char				*cd_resolve_path(t_cmd *cmd, t_global *global);
