@@ -83,11 +83,10 @@ int	run_builtin_with_redirs(t_cmd *cmd, t_global *global)
 
 int	execute(t_cmd *cmds, t_global *global)
 {
+	//if (!cmds || !cmds->args || !cmds->args[0])
+		//return (0);
 	if (!cmds)
-	{
 		return (0);
-	}
-		
 	if (!cmds->args || !cmds->args[0])
 	{
 		apply_redirs(cmds);
