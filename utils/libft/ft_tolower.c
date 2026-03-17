@@ -1,22 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   quit.c                                             :+:      :+:    :+:   */
+/*   ft_tolower.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mgolasze <mgolasze@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mafzal < mafzal@student.42warsaw.pl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/03/06 09:51:58 by mafzal            #+#    #+#             */
-/*   Updated: 2026/03/17 14:28:47 by mgolasze         ###   ########.fr       */
+/*   Created: 2024/12/02 18:50:41 by mafzal            #+#    #+#             */
+/*   Updated: 2025/01/14 19:42:44 by mafzal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "libft.h"
 
-void	quit(t_global *global)
+int	ft_tolower(int c)
 {
-	int	exit_status;
-
-	exit_status = global -> exit_status;
-	free_all(global);
-	exit(exit_status);
+	if (c >= 'A' && c <= 'Z')
+		c = c + 32;
+	return (c);
 }

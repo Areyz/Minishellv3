@@ -1,28 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fork_cmd.c                                         :+:      :+:    :+:   */
+/*   ft_striteri.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mgolasze <mgolasze@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mafzal < mafzal@student.42warsaw.pl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/03/06 09:49:27 by mafzal            #+#    #+#             */
-/*   Updated: 2026/03/17 16:51:38 by mgolasze         ###   ########.fr       */
+/*   Created: 2024/12/24 17:32:23 by mafzal            #+#    #+#             */
+/*   Updated: 2024/12/24 17:49:18 by mafzal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "libft.h"
 
-pid_t	fork_cmd(t_cmd *cmd, int prev_fd, int *pipe_fd, t_global *global)
+void	ft_striteri(char *s, void (*f)(unsigned int, char *))
 {
-	pid_t	pid;
+	int	i;
 
-	pid = fork();
-	if (pid < 0)
+	i = 0;
+	if (!s || !f)
+		return ;
+	while (s[i] != '\0')
 	{
-		perror("fork");
-		return (-1);
+		f(i, &s[i]);
+		i++;
 	}
-	if (pid == 0)
-		exec_child(cmd, prev_fd, pipe_fd, global);
-	return (pid);
 }

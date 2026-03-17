@@ -1,22 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   quit.c                                             :+:      :+:    :+:   */
+/*   ft_lstlast.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mgolasze <mgolasze@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mafzal < mafzal@student.42warsaw.pl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/03/06 09:51:58 by mafzal            #+#    #+#             */
-/*   Updated: 2026/03/17 14:28:47 by mgolasze         ###   ########.fr       */
+/*   Created: 2024/12/26 16:53:01 by mafzal            #+#    #+#             */
+/*   Updated: 2025/01/14 19:43:39 by mafzal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "libft.h"
 
-void	quit(t_global *global)
+t_list	*ft_lstlast(t_list *lst)
 {
-	int	exit_status;
-
-	exit_status = global -> exit_status;
-	free_all(global);
-	exit(exit_status);
+	if (!lst)
+		return (NULL);
+	while (lst->next != NULL)
+	{
+		lst = lst->next;
+	}
+	return (lst);
 }

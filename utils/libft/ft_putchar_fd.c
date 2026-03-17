@@ -1,22 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   quit.c                                             :+:      :+:    :+:   */
+/*   ft_putchar_fd.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mgolasze <mgolasze@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mafzal < mafzal@student.42warsaw.pl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/03/06 09:51:58 by mafzal            #+#    #+#             */
-/*   Updated: 2026/03/17 14:28:47 by mgolasze         ###   ########.fr       */
+/*   Created: 2024/12/24 17:54:03 by mafzal            #+#    #+#             */
+/*   Updated: 2024/12/31 01:11:47 by mafzal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "libft.h"
 
-void	quit(t_global *global)
+void	ft_putchar_fd(char c, int fd)
 {
-	int	exit_status;
-
-	exit_status = global -> exit_status;
-	free_all(global);
-	exit(exit_status);
+	if (fd < 0)
+		return ;
+	write(fd, &c, 1);
 }

@@ -1,22 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   quit.c                                             :+:      :+:    :+:   */
+/*   ft_putendl_fd.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mgolasze <mgolasze@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mafzal < mafzal@student.42warsaw.pl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/03/06 09:51:58 by mafzal            #+#    #+#             */
-/*   Updated: 2026/03/17 14:28:47 by mgolasze         ###   ########.fr       */
+/*   Created: 2024/12/24 18:42:33 by mafzal            #+#    #+#             */
+/*   Updated: 2024/12/24 19:11:23 by mafzal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "libft.h"
 
-void	quit(t_global *global)
+void	ft_putendl_fd(char *s, int fd)
 {
-	int	exit_status;
+	int	i;
 
-	exit_status = global -> exit_status;
-	free_all(global);
-	exit(exit_status);
+	i = -1;
+	if (!s || fd < 0)
+		return ;
+	while (s[++i] != '\0')
+		write(fd, &s[i], 1);
+	write(fd, "\n", 1);
 }

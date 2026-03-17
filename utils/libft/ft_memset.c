@@ -1,28 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fork_cmd.c                                         :+:      :+:    :+:   */
+/*   ft_memset.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mgolasze <mgolasze@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mafzal < mafzal@student.42warsaw.pl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/03/06 09:49:27 by mafzal            #+#    #+#             */
-/*   Updated: 2026/03/17 16:51:38 by mgolasze         ###   ########.fr       */
+/*   Created: 2024/12/04 21:12:06 by mafzal            #+#    #+#             */
+/*   Updated: 2024/12/25 20:17:07 by mafzal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "libft.h"
 
-pid_t	fork_cmd(t_cmd *cmd, int prev_fd, int *pipe_fd, t_global *global)
+void	*ft_memset(void *s, int c, size_t n)
 {
-	pid_t	pid;
+	unsigned char	*src;
+	size_t			i;
 
-	pid = fork();
-	if (pid < 0)
+	src = (unsigned char *)s;
+	i = 0;
+	while (i < n)
 	{
-		perror("fork");
-		return (-1);
+		src[i] = c;
+		i++;
 	}
-	if (pid == 0)
-		exec_child(cmd, prev_fd, pipe_fd, global);
-	return (pid);
+	return (src);
 }

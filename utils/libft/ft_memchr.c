@@ -1,28 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fork_cmd.c                                         :+:      :+:    :+:   */
+/*   ft_memchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mgolasze <mgolasze@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mafzal < mafzal@student.42warsaw.pl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/03/06 09:49:27 by mafzal            #+#    #+#             */
-/*   Updated: 2026/03/17 16:51:38 by mgolasze         ###   ########.fr       */
+/*   Created: 2024/12/15 20:02:06 by mafzal            #+#    #+#             */
+/*   Updated: 2024/12/18 17:17:45 by mafzal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "libft.h"
 
-pid_t	fork_cmd(t_cmd *cmd, int prev_fd, int *pipe_fd, t_global *global)
+void	*ft_memchr(const void *s, int c, size_t n)
 {
-	pid_t	pid;
+	const unsigned char	*ptr;
+	size_t				i;
 
-	pid = fork();
-	if (pid < 0)
+	ptr = (const unsigned char *)s;
+	i = 0;
+	while (i < n)
 	{
-		perror("fork");
-		return (-1);
+		if (ptr[i] == (unsigned char)c)
+			return ((void *)(ptr + i));
+		i++;
 	}
-	if (pid == 0)
-		exec_child(cmd, prev_fd, pipe_fd, global);
-	return (pid);
+	return (NULL);
 }

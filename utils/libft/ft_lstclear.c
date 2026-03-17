@@ -1,28 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fork_cmd.c                                         :+:      :+:    :+:   */
+/*   ft_lstclear.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mgolasze <mgolasze@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mafzal < mafzal@student.42warsaw.pl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/03/06 09:49:27 by mafzal            #+#    #+#             */
-/*   Updated: 2026/03/17 16:51:38 by mgolasze         ###   ########.fr       */
+/*   Created: 2024/12/27 15:12:45 by mafzal            #+#    #+#             */
+/*   Updated: 2025/01/14 19:43:30 by mafzal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "libft.h"
 
-pid_t	fork_cmd(t_cmd *cmd, int prev_fd, int *pipe_fd, t_global *global)
+void	ft_lstclear(t_list **lst, void (*del)(void *))
 {
-	pid_t	pid;
+	t_list	*temp;
 
-	pid = fork();
-	if (pid < 0)
+	if (!lst || !del)
+		return ;
+	while (*lst)
 	{
-		perror("fork");
-		return (-1);
+		temp = (*lst)->next;
+		del((*lst)->content);
+		free(*lst);
+		*lst = temp;
 	}
-	if (pid == 0)
-		exec_child(cmd, prev_fd, pipe_fd, global);
-	return (pid);
+	*lst = NULL;
 }
