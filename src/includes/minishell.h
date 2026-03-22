@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mafzal < mafzal@student.42warsaw.pl>       +#+  +:+       +#+        */
+/*   By: mgolasze <mgolasze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/06 14:40:15 by mafzal            #+#    #+#             */
-/*   Updated: 2026/03/17 16:33:39 by mgolasze         ###   ########.fr       */
+/*   Updated: 2026/03/22 21:40:21 by mgolasze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,10 +162,11 @@ char				*find_command(char *cmd, t_env *env);
 /* redir.c */
 int					apply_redir_in(t_redir *redir);
 int					apply_redir_out(t_redir *redir);
-int					apply_heredoc(t_redir *redir);
-void				process_heredoc(t_cmd *cmd);
+int					apply_heredoc(t_redir *redir, t_global *global);
+void				process_heredoc(t_cmd *cmd, t_global *global);
 void				close_heredoc(t_cmd *cmd);
 int					apply_redirs(t_cmd *cmd);
+char				*handle_delim(char *delim);
 
 /* exec_cmd.c */
 void				wire_pipes(int prev_fd, int *pipe_fd, int has_next);

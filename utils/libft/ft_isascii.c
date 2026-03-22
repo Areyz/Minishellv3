@@ -1,32 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   apply_redir_in.c                                   :+:      :+:    :+:   */
+/*   ft_isascii.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mgolasze <mgolasze@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mafzal < mafzal@student.42warsaw.pl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/03/06 09:51:00 by mafzal            #+#    #+#             */
-/*   Updated: 2026/03/22 21:40:23 by mgolasze         ###   ########.fr       */
+/*   Created: 2024/12/17 17:48:47 by mafzal            #+#    #+#             */
+/*   Updated: 2025/01/14 19:43:10 by mafzal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "libft.h"
 
-int	apply_redir_in(t_redir *redir)
+int	ft_isascii(int c)
 {
-	int	fd;
-
-	fd = open(redir->file, O_RDONLY);
-	if (fd == -1)
-	{
-		perror(redir->file);
-		return (-1);
-	}
-	if (dup2(fd, redir->fd) == -1)
-	{
-		close(fd);
-		return (-1);
-	}
-	close(fd);
+	if (c >= 0 && c <= 127)
+		return (1);
 	return (0);
 }

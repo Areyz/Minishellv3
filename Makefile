@@ -75,6 +75,7 @@ SRC = \
 	src/redire/apply_redir_out.c \
 	src/redire/apply_redirs.c \
 	src/redire/heredoc.c \
+	src/redire/heredoc_utils.c \
 	src/redire/create_redir.c \
 	src/redire/is_redirection.c \
 	src/redire/redir_add_back.c \

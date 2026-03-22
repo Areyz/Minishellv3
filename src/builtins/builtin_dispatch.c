@@ -6,7 +6,7 @@
 /*   By: mgolasze <mgolasze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/06 09:48:46 by mafzal            #+#    #+#             */
-/*   Updated: 2026/03/17 19:45:14 by mgolasze         ###   ########.fr       */
+/*   Updated: 2026/03/22 19:17:36 by mgolasze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ int	execute(t_cmd *cmds, t_global *global)
 	if (!cmds)
 		return (0);
 	saved_stdin = dup(STDIN_FILENO);
-	process_heredoc(cmds);
+	process_heredoc(cmds, global);
 	if (!cmds->args || !cmds->args[0])
 	{
 		dup2(saved_stdin, STDIN_FILENO);

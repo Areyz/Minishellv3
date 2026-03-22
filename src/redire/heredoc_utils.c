@@ -1,33 +1,43 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signals.c                                          :+:      :+:    :+:   */
+/*   heredoc_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mgolasze <mgolasze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/03/06 09:51:45 by mafzal            #+#    #+#             */
-/*   Updated: 2026/03/22 21:40:29 by mgolasze         ###   ########.fr       */
+/*   Created: 2026/03/18 18:41:32 by mgolasze          #+#    #+#             */
+/*   Updated: 2026/03/22 19:44:08 by mgolasze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-static void	sigint_handler(int sig)
+char	*handle_delim(char *delim)
 {
-	(void)sig;
-	write(STDOUT_FILENO, "\n", 1);
-	rl_on_new_line();
-	rl_replace_line("", 0);
-	rl_redisplay();
-}
+	int		i;
+	int		j;
+	char	*newdelim;
 
-void	setup_signals(void)
-{
-	struct sigaction	sa_int;
-
-	sa_int.sa_handler = sigint_handler;
-	sigemptyset(&sa_int.sa_mask);
-	sa_int.sa_flags = SA_RESTART;
-	sigaction(SIGINT, &sa_int, NULL);
-	signal(SIGQUIT, SIG_IGN);
+	i = 0;
+	j = 0;
+	while (delim[i])
+	{
+		if (!(delim[i] == '\'' || delim[i] == '\"'))
+			j++;
+		i++;
+	}
+	newdelim = malloc(sizeof(char) *(j + 1));
+	i = 0;
+	j = 0;
+	while (delim[i])
+	{
+		if (!(delim[i] == '\'' || delim[i] == '\"'))
+		{
+			newdelim[j] = delim[i];
+			j++;
+		}
+		i++;
+	}
+	newdelim[j] = '\0';
+	return (newdelim);
 }

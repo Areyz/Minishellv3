@@ -1,33 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signals.c                                          :+:      :+:    :+:   */
+/*   ft_printf.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mgolasze <mgolasze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/03/06 09:51:45 by mafzal            #+#    #+#             */
-/*   Updated: 2026/03/22 21:40:29 by mgolasze         ###   ########.fr       */
+/*   Created: 2025/02/19 18:45:27 by mgolasze          #+#    #+#             */
+/*   Updated: 2025/03/06 19:51:13 by mgolasze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "ft_printf.h"
 
-static void	sigint_handler(int sig)
+int	ft_printf(const char *cch, ...)
 {
-	(void)sig;
-	write(STDOUT_FILENO, "\n", 1);
-	rl_on_new_line();
-	rl_replace_line("", 0);
-	rl_redisplay();
-}
+	va_list	cp;
+	size_t	i;
 
-void	setup_signals(void)
-{
-	struct sigaction	sa_int;
-
-	sa_int.sa_handler = sigint_handler;
-	sigemptyset(&sa_int.sa_mask);
-	sa_int.sa_flags = SA_RESTART;
-	sigaction(SIGINT, &sa_int, NULL);
-	signal(SIGQUIT, SIG_IGN);
+	if (!cch)
+		return (-1);
+	va_start(cp, cch);
+	i = 0;
+	while (*cch)
+	{
+		if (*cch == '%')
+		{
+			cch++;
+			ft_ifelse(*cch, cp, &i);
+		}
+		else
+			ft_putchar(*cch, &i);
+		cch++;
+	}
+	va_end(cp);
+	return (i);
 }
