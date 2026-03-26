@@ -1,26 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   has_quotes.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mafzal < mafzal@student.42warsaw.pl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/02/22 23:24:15 by mafzal            #+#    #+#             */
-/*   Updated: 2026/03/26 20:36:26 by mafzal           ###   ########.fr       */
+/*   Created: 2026/03/24 22:30:25 by mafzal            #+#    #+#             */
+/*   Updated: 2026/03/24 22:31:14 by mafzal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "includes/minishell.h"
+#include "../includes/minishell.h"
 
-int	main(int argc, char **argv, char **envp)
+int	has_quotes(const char *str)
 {
-	t_global	global;
-
-	(void)argc;
-	(void)argv;
-	createglobal(&global, envp);
-	init_shell(&global);
-	clear_history();
-	free_all(&global);
-	return (global.exit_status);
+	while (*str)
+	{
+		if (*str == '\'' || *str == '"')
+			return (1);
+		str++;
+	}
+	return (0);
 }

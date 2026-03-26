@@ -1,36 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   add_cmd_arg.c                                      :+:      :+:    :+:   */
+/*   handle_and_or_operator_utils.c                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mgolasze <mgolasze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/02/22 23:24:48 by mafzal            #+#    #+#             */
-/*   Updated: 2026/03/23 18:48:29 by mgolasze         ###   ########.fr       */
+/*   Created: 2026/03/25 18:31:54 by mgolasze          #+#    #+#             */
+/*   Updated: 2026/03/25 18:36:59 by mgolasze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	add_cmd_arg(t_cmd *cmd, char *value)
+int	run_chain_last_segment(char *input, t_parse_state *state, t_global *global)
 {
-	char	**new_args;
-	int		i;
+	char	*segment;
 
-	i = 0;
-	while (cmd->args && cmd->args[i])
-		i++;
-	new_args = malloc(sizeof(char *) * (i + 2));
-	if (!new_args)
-		return ;
-	i = 0;
-	while (cmd->args && cmd->args[i])
-	{
-		new_args[i] = cmd->args[i];
-		i++;
-	}
-	new_args[i] = ft_strdup(value);
-	new_args[i + 1] = NULL;
-	free(cmd->args);
-	cmd->args = new_args;
+	segment = trimmed_segment(input, state->start, state->i);
+	if (!segment)
+		return (0);
+	if (!*segment)
+		return (free(segment), operator_syntax_error("command"));
+	if (state->should_exec && !execute_segment(segment, global))
+		return (free(segment), 0);
+	free(segment);
+	return (1);
 }

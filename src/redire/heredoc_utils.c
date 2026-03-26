@@ -6,7 +6,7 @@
 /*   By: mgolasze <mgolasze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/18 18:41:32 by mgolasze          #+#    #+#             */
-/*   Updated: 2026/03/22 19:44:08 by mgolasze         ###   ########.fr       */
+/*   Updated: 2026/03/23 16:45:40 by mgolasze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,7 @@ char	*handle_delim(char *delim)
 	while (delim[i])
 	{
 		if (!(delim[i] == '\'' || delim[i] == '\"'))
-		{
-			newdelim[j] = delim[i];
-			j++;
-		}
+			newdelim[j++] = delim[i];
 		i++;
 	}
 	newdelim[j] = '\0';

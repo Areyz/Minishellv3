@@ -1,36 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   add_cmd_arg.c                                      :+:      :+:    :+:   */
+/*   read_line_stdin.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mgolasze <mgolasze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/02/22 23:24:48 by mafzal            #+#    #+#             */
-/*   Updated: 2026/03/23 18:48:29 by mgolasze         ###   ########.fr       */
+/*   Created: 2026/03/24 22:05:56 by mafzal            #+#    #+#             */
+/*   Updated: 2026/03/25 17:59:57 by mgolasze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	add_cmd_arg(t_cmd *cmd, char *value)
+char	*read_line_stdin(void)
 {
-	char	**new_args;
+	char	buffer[1024];
+	int		bytes;
 	int		i;
+	char	*line;
 
+	bytes = read(STDIN_FILENO, buffer, sizeof(buffer) - 1);
+	if (bytes <= 0)
+		return (NULL);
+	buffer[bytes] = '\0';
 	i = 0;
-	while (cmd->args && cmd->args[i])
+	while (i < bytes && buffer[i] != '\n')
 		i++;
-	new_args = malloc(sizeof(char *) * (i + 2));
-	if (!new_args)
-		return ;
-	i = 0;
-	while (cmd->args && cmd->args[i])
-	{
-		new_args[i] = cmd->args[i];
-		i++;
-	}
-	new_args[i] = ft_strdup(value);
-	new_args[i + 1] = NULL;
-	free(cmd->args);
-	cmd->args = new_args;
+	if (i < bytes)
+		buffer[i] = '\0';
+	if (i > 0 && buffer[i - 1] == '\r')
+		buffer[i - 1] = '\0';
+	line = ft_strdup(buffer);
+	return (line);
 }

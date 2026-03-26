@@ -1,34 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   apply_redirs.c                                     :+:      :+:    :+:   */
+/*   handle_unquoted.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mafzal < mafzal@student.42warsaw.pl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/03/06 09:51:08 by mafzal            #+#    #+#             */
-/*   Updated: 2026/03/24 20:56:38 by mafzal           ###   ########.fr       */
+/*   Created: 2026/03/24 17:14:16 by mafzal            #+#    #+#             */
+/*   Updated: 2026/03/24 22:13:06 by mafzal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int	apply_redirs(t_cmd *cmd)
+int	handle_unquoted_block(char *input, t_parse_state *state, t_global *global)
 {
-	int		status;
-	t_redir	*cur;
+	int	handled;
 
-	cur = cmd->redirs;
-	while (cur)
+	if (input[state->i] == '(')
+		state->paren_depth++;
+	else if (input[state->i] == ')')
+		state->paren_depth--;
+	else if (state->paren_depth == 0)
 	{
-		status = 0;
-		if (cur->type == T_REDIR_IN || cur->type == T_HEREDOC)
-			status = apply_redir_in(cur);
-		else if (cur->type == T_REDIR_OUT || cur->type == T_REDIR_APPEND
-			|| cur->type == T_FD_REDIR_OUT || cur->type == T_FD_REDIR_APPEND)
-			status = apply_redir_out(cur);
-		if (status == -1)
+		handled = handle_and_operator(input, state, global);
+		if (handled == -1)
 			return (-1);
-		cur = cur->next;
+		if (handled == 1)
+			return (1);
+		handled = handle_or_operator(input, state, global);
+		if (handled == -1)
+			return (-1);
+		if (handled == 1)
+			return (1);
 	}
 	return (0);
 }

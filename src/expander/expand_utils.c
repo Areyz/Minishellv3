@@ -1,26 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   expand_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mafzal < mafzal@student.42warsaw.pl>       +#+  +:+       +#+        */
+/*   By: mgolasze <mgolasze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/02/22 23:24:15 by mafzal            #+#    #+#             */
-/*   Updated: 2026/03/26 20:36:26 by mafzal           ###   ########.fr       */
+/*   Created: 2026/03/23 18:08:30 by mgolasze          #+#    #+#             */
+/*   Updated: 2026/03/23 18:12:56 by mgolasze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "includes/minishell.h"
+#include "../includes/minishell.h"
 
-int	main(int argc, char **argv, char **envp)
+void	expand_exit_status(int *i, char **out, t_global *global)
 {
-	t_global	global;
+	char	*num;
 
-	(void)argc;
-	(void)argv;
-	createglobal(&global, envp);
-	init_shell(&global);
-	clear_history();
-	free_all(&global);
-	return (global.exit_status);
+	num = ft_itoa(global->exit_status);
+	*out = cmd_strappend(*out, num);
+	free(num);
+	*i += 2;
 }

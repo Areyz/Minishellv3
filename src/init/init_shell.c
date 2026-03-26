@@ -6,58 +6,69 @@
 /*   By: mafzal < mafzal@student.42warsaw.pl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/22 23:24:38 by mafzal            #+#    #+#             */
-/*   Updated: 2026/03/16 18:04:01 by mgolasze         ###   ########.fr       */
+/*   Updated: 2026/03/26 21:21:18 by mafzal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
+char	*append_input_line(char *input, char *line)
+{
+	char	*newline;
+	char	*joined;
+
+	newline = ft_strjoin(input, "\n");
+	if (!newline)
+		return (NULL);
+	joined = ft_strjoin(newline, line);
+	free(newline);
+	return (joined);
+}
+
+static int	check_input(char *input)
+{
+	if (!input)
+	{
+		ft_printf("exit\n");
+		return (1);
+	}
+	return (0);
+}
+
+static int	handle_shell_input(char *input, t_global *global)
+{
+	if (!input)
+	{
+		global->exit_status = 2;
+		return (0);
+	}
+	if (*input)
+		add_history(input);
+	if (!run_and_or_chain(input, global))
+		global->exit_status = 2;
+	return (1);
+}
+
 void	init_shell(t_global *global)
 {
 	char	*input;
-	t_token	*tokens;
-	t_cmd	*parsed_cmd;
 
-	// t_cmd	*next;
-	// char	**args;
-	// t_cmd	*tmp;
 	setup_signals();
 	while (1)
 	{
-		input = readline("minishell$ ");
-		if (!input)
+		if (g_signal_state == -1)
 		{
-			ft_printf("exit\n");
+			global->exit_status = 130;
+			g_signal_state = 0;
+		}
+		input = readline(PROMPT);
+		if (check_input(input))
 			break ;
-		}
-		if (*input)
-			add_history(input);
-		tokens = tokenize(input);
-		if (!tokens)
-		{
-			free(input);
+		input = read_unclosed_quotes(input);
+		if (!handle_shell_input(input, global))
 			continue ;
-		}
-		if (tokens)
-			global->tokens = tokens;
-		parsed_cmd = parse_token(tokens, global);
-		// tmp = parsed_cmd;
-		// while (tmp)
-		// {
-		// 	next = tmp->next;
-		// 	ft_printf("Command index: %d\n", tmp->index);
-		// 	args = tmp->args;
-		// 	for (int i = 0; args && args[i]; i++)
-		// 		ft_printf("  Arg %d: %s\n", i, args[i]);
-		// 	tmp = next;
-		// }
-		if (parsed_cmd)
-		{
-			global->cmds = parsed_cmd;
-			execute(parsed_cmd, global);
-		}
-		free_tokens(tokens);
-		free_cmd(parsed_cmd);
 		free(input);
+		if (global->should_exit)
+			break ;
 	}
 }

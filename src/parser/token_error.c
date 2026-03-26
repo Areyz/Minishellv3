@@ -1,26 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   token_error.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mafzal < mafzal@student.42warsaw.pl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/02/22 23:24:15 by mafzal            #+#    #+#             */
-/*   Updated: 2026/03/26 20:36:26 by mafzal           ###   ########.fr       */
+/*   Created: 2026/03/24 22:23:03 by mafzal            #+#    #+#             */
+/*   Updated: 2026/03/24 23:23:36 by mafzal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "includes/minishell.h"
+#include "../includes/minishell.h"
 
-int	main(int argc, char **argv, char **envp)
+int	token_error(char *unexpected)
 {
-	t_global	global;
-
-	(void)argc;
-	(void)argv;
-	createglobal(&global, envp);
-	init_shell(&global);
-	clear_history();
-	free_all(&global);
-	return (global.exit_status);
+	if (unexpected)
+	{
+		ft_putstr_fd("minishell: syntax error near unexpected token `", 2);
+		ft_putstr_fd(unexpected, 2);
+		ft_putstr_fd("'\n", 2);
+		return (0);
+	}
+	return (1);
 }

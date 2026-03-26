@@ -1,34 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   apply_redir_in.c                                   :+:      :+:    :+:   */
+/*   prepare_heredoc.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mafzal < mafzal@student.42warsaw.pl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/03/06 09:51:00 by mafzal            #+#    #+#             */
-/*   Updated: 2026/03/24 20:56:34 by mafzal           ###   ########.fr       */
+/*   Created: 2026/03/24 21:57:09 by mafzal            #+#    #+#             */
+/*   Updated: 2026/03/24 22:03:54 by mafzal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int	apply_redir_in(t_redir *redir)
+int	prepare_heredoc(pid_t pid, t_redir *redir)
 {
-	int	fd;
+	int		status;
+	char	*old_file;
 
-	fd = open(redir->file, O_RDONLY);
-	if (fd == -1)
+	if (waitpid(pid, &status, 0) == -1)
+		return (setup_signals(), -1);
+	setup_signals();
+	if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
 	{
-		perror(redir->file);
+		write(STDOUT_FILENO, "\n", 1);
+		g_signal_state = -1;
 		return (-1);
 	}
-	if (redir->type == T_HEREDOC)
-		unlink(redir->file);
-	if (dup2(fd, redir->fd) == -1)
+	if (WIFEXITED(status) && WEXITSTATUS(status) != 0)
 	{
-		close(fd);
+		g_signal_state = -1;
 		return (-1);
 	}
-	close(fd);
+	old_file = redir->file;
+	redir->file = ft_strdup(".heredoc_tmp");
+	free(old_file);
+	if (!redir->file)
+		return (-1);
 	return (0);
 }

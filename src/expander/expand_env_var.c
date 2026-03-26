@@ -1,26 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   expand_env_var.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mafzal < mafzal@student.42warsaw.pl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/02/22 23:24:15 by mafzal            #+#    #+#             */
-/*   Updated: 2026/03/26 20:36:26 by mafzal           ###   ########.fr       */
+/*   Created: 2026/03/16 22:40:04 by mafzal            #+#    #+#             */
+/*   Updated: 2026/03/16 22:42:31 by mafzal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "includes/minishell.h"
+#include "../includes/minishell.h"
 
-int	main(int argc, char **argv, char **envp)
+void	expand_env_var(const char *src, int *i, char **out, t_global *global)
 {
-	t_global	global;
+	int		start;
+	int		j;
+	char	*piece;
+	char	*value;
 
-	(void)argc;
-	(void)argv;
-	createglobal(&global, envp);
-	init_shell(&global);
-	clear_history();
-	free_all(&global);
-	return (global.exit_status);
+	start = *i + 1;
+	j = start;
+	while (src[j] && is_var_char(src[j]))
+		j++;
+	piece = ft_substr(src, start, j - start);
+	value = env_value_or_empty(global, piece);
+	*out = cmd_strappend(*out, value);
+	free(piece);
+	free(value);
+	*i = j;
 }
