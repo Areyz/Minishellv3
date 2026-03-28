@@ -66,7 +66,10 @@ void	init_shell(t_global *global)
 			break ;
 		input = read_unclosed_quotes(input);
 		if (!handle_shell_input(input, global))
+		{
+			free(input);
 			continue ;
+		}
 		free(input);
 		if (global->should_exit)
 			break ;

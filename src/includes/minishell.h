@@ -200,8 +200,6 @@ char				*handle_delim(char *delim);
 /* exec_cmd.c */
 void				wire_pipes(int prev_fd, int *pipe_fd, int has_next);
 void				print_cmd_not_found(char *name);
-void				exec_child(t_cmd *cmd, int prev_fd, int *pipe_fd,
-						t_global *global);
 
 /* pipe_exe.c */
 int					open_pipe(t_cmd *cmd, int *pipe_fd);
@@ -273,5 +271,10 @@ int					run_chain_last_segment(char *input, t_parse_state *state,
 						t_global *global);
 int					expand_and_write_line(int write_fd, char *line, int expand,
 						t_global *global);
-
+/*Main exec*/
+void				exec_path(t_cmd *cmd, char **env, t_global *global);
+void				child_exit(t_global *global, char **env, int code);
+void				exec_child(t_cmd *cmd, int prev_fd, int *pipe_fd,
+						t_global *global);
+						
 #endif

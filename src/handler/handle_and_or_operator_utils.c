@@ -14,15 +14,17 @@
 
 int	run_chain_last_segment(char *input, t_parse_state *state, t_global *global)
 {
-	char	*segment;
+    char	*segment;
+    int		ret;
 
-	segment = trimmed_segment(input, state->start, state->i);
-	if (!segment)
-		return (0);
-	if (!*segment)
-		return (free(segment), operator_syntax_error("command"));
-	if (state->should_exec && !execute_segment(segment, global))
-		return (free(segment), 0);
-	free(segment);
-	return (1);
+    segment = trimmed_segment(input, state->start, state->i);
+    if (!segment)
+        return (0);
+    if (!*segment)
+        return (free(segment), operator_syntax_error("command"));
+    ret = 1;
+    if (state->should_exec && !execute_segment(segment, global))
+        ret = 0;
+    free(segment);
+    return (ret);
 }
